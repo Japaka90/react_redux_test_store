@@ -1,5 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { Component } from 'react';
+//import { connect } from 'react-redux';
 import { chooseCategory } from '../actions/Actions';
 
 
@@ -7,19 +8,20 @@ class PeopleList extends Component {
 
  constructor(props) {
       super(props);
-      this.state = { category: null };
+      this.state = { category: props.state[0] };
   }
-}
+
 
 // создать список людей без повторов по конкретной категории
-    getAllPeople = (item) => {
+    getAllPeople = (item) => {        
+        let data = this.props.data;       
         let people =[];
-        for (var i=0; i<markersInfo.length; i++) { 
-            let lastItem = people[people.length-1]; 
-            if (markersInfo[i]['categoryId'] === item && markersInfo[i]['person'] !== lastItem ) {
-                people.push(markersInfo[i]['person'])
+        for (var i=0; i<data.length; i++) { 
+            let lastItem = people[people.length-1];             
+            if (data[i]['categoryId'] === item && data[i]['person'] !== lastItem ) {
+                people.push(data[i]['person'])              
             }
-        }
+        }        
         return people
     }
     
@@ -32,17 +34,28 @@ class PeopleList extends Component {
     }
     
     // создаю ul
-    renderUl = (item) => {
-        console.log('li', this.renderLi2(item));
+    renderUl = (item) => {        
+        if (item === []) {
+            return null
+        }
         return (
             <ul key={1}>
-            { this.getAllPeople().map((item) => this.renderLi2(item)) }
+            { this.getAllPeople(item).map((item) => this.renderLi2(item)) }
         </ul>
         )       
     }
 
-//render {
-//    
-//}
+render() {
+    
+//    console.log('new state',this.state.category);
+//    console.log('people list state', this.props.state);    
+    
+    return(
+        
+        <div> { this.renderUl(this.state.category) } </div>
+    )
+   
+    }
+}
 
 export default PeopleList;

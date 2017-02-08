@@ -3,6 +3,6 @@ export const chooseCategory = (id) => {
     return {
         type: 'CATEGORY_CHOSEN', 
         text: 'Category was chosen', 
-        index: id 
+        category: id 
     }
 };

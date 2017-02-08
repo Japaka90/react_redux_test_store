@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Category from './components/Category';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import PeopleList from './components/PeopleList';
 
 
 
@@ -77,12 +78,15 @@ import { connect } from 'react-redux'
 
 class App extends Component {   
     
+     addCategory = (event) => {
+          console.log('exp', event.target.innerHTML);
+         this.props.onAddCategory(event.target.innerHTML);
+      }
+      
     
   render() {
-      
-      const store = this.props.store;
-      console.log(15, store);
-      
+           console.log(15, this.props.store);     
+     
       
       
     return (
@@ -94,6 +98,15 @@ class App extends Component {
         
         <div className="category_wrapper">            
             <Category items={markersInfo}/>                      
+        </div>
+        
+        <div className="category_wrapper">            
+            <PeopleList data={markersInfo}
+                        state={this.props.store}/>                      
+        </div>
+        
+        <div className="exp" onClick={this.addCategory}>            
+            category2                     
         </div>
         
        
@@ -108,5 +121,9 @@ export default connect(
   state => ({
     store: state
   }),
-  dispatch => ({})
+  dispatch => ({
+      onAddCategory: (category) => {
+          dispatch({type: 'CATEGORY_CHOSEN', text: 'Category was chosen', index: 'category1'})
+      }
+  })
 )(App);
